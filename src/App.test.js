@@ -18,3 +18,31 @@ describe("test button", () => {
     expect(button).toHaveStyle({ backgroundColor: "blue" });
   });
 });
+
+describe("test checkbox and button", () => {
+  test("initial conditions", () => {
+    render(<App />);
+
+    const button = screen.getByRole("button", { name: /change to blue/i });
+    expect(button).toBeEnabled();
+
+    const checkbox = screen.getByRole("checkbox");
+
+    expect(checkbox).not.toBeChecked();
+  });
+
+  test("button should be enabled if checkbox is checked", () => {
+    render(<App />);
+
+    const button = screen.getByRole("button", { name: /change to blue/i });
+    const checkbox = screen.getByRole("checkbox");
+
+    expect(button).toBeEnabled();
+
+    fireEvent.click(checkbox);
+    expect(button).toBeDisabled();
+
+    fireEvent.click(checkbox);
+    expect(button).toBeEnabled();
+  });
+});
